@@ -24,14 +24,19 @@ module parity_generator_tb;
     );
 
 
-    // Test Procedure
     initial begin
+
+        // Save waveform
+        $dumpfile("parity_generator.vcd");
+        $dumpvars(0, parity_generator_tb);
+
 
         $display("========================================");
         $display("   PARITY GENERATOR TESTBENCH STARTED");
         $display("========================================");
 
-        // Test all possible 8-bit input combinations
+
+        // Test all 256 input combinations
         for (i = 0; i < 256; i++) begin
 
             data = i[7:0];
@@ -39,8 +44,8 @@ module parity_generator_tb;
             // Calculate expected parity
             expected_parity = ^data;
 
-            // Wait for signal to settle
             #10;
+
 
             // Check result
             if (parity === expected_parity) begin
@@ -74,9 +79,13 @@ module parity_generator_tb;
         $display("========================================");
         $display("        SIMULATION SUMMARY");
         $display("========================================");
-        $display("Total Test Cases = %0d", pass_count + fail_count);
+
+        $display("Total Test Cases = %0d",
+                  pass_count + fail_count);
+
         $display("Passed           = %0d", pass_count);
         $display("Failed           = %0d", fail_count);
+
         $display("========================================");
 
 
@@ -87,9 +96,9 @@ module parity_generator_tb;
 
         $display("========================================");
 
+
         $finish;
 
     end
-
 
 endmodule
